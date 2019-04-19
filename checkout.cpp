@@ -339,6 +339,14 @@ int main()
 
         case 8:
             cout << "Closing Program" << endl;
+            for (int x = 0; x < cardholders.size(); x++)
+            {
+                delete cardholders[x];
+            }
+            for (int x = 0; x < books.size(); x++)
+            {
+                delete books[x];
+            }
             break;
 
         default:
