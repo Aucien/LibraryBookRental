@@ -99,15 +99,28 @@ void readRentals(vector<Book *> &myBooks, vector<Person *> myCardHolders)
 
 void openCard(vector<Person *> &myCardholders, int nextID)
 {
+    bool active = false;
     string fName, lName;
     cout << "Please enter the first name: ";
     cin >> fName;
     cout << "\nPlease enter the last name: ";
     cin >> lName;
-    Person *personPtr = nullptr;
-    nextID = myCardholders.back()->getId() + 1;
-    personPtr = new Person(nextID, 1, fName, lName);
-    myCardholders.push_back(personPtr);
+    for (int x = 0; x < myCardholders.size(); x++)
+    {
+        if (myCardholders[x]->fullName() == fName + " " + lName)
+        {
+            myCardholders[x]->setActive(true);
+            active = true;
+        }
+    }
+    if (!active)
+    {
+        Person *personPtr = nullptr;
+        nextID = myCardholders.back()->getId() + 1;
+        personPtr = new Person(nextID, 1, fName, lName);
+        myCardholders.push_back(personPtr);
+    }
+    cout << "Card is active" << endl;
 }
 
 Book *searchBook(vector<Book *> myBooks, int id)
@@ -341,12 +354,14 @@ int main()
             cout << "Closing Program" << endl;
             for (int x = 0; x < cardholders.size(); x++)
             {
-                delete cardholders[x];
+                delete cardholders.at(x);
             }
+            cardholders.clear();
             for (int x = 0; x < books.size(); x++)
             {
-                delete books[x];
+                delete books.at(x);
             }
+            books.clear();
             break;
 
         default:
